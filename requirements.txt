@@ -1,0 +1,14 @@
+whisperx
+moviepy
+gradio
+httpx
+requests
+pydub
+python-dotenv
+transformers
+pyyaml
+pocketflow
+duckduckgo_search
+pandas
+colorlog
+chardet

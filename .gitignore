@@ -1,0 +1,17 @@
+*.db
+*.json
+*.log
+*.xlsx
+*.csv
+*.spec
+/.idea
+/.vscode
+/.gradio
+__pycache__
+.DS_Store
+*.zip
+.env
+*.bak
+*.wav
+/tts
+/social_data
