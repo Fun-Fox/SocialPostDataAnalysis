@@ -262,8 +262,6 @@ with gr.Blocks(title="🐦 Twitter 数据抓取配置与执行") as demo:
     #         inputs=[selected_audios],
     #         outputs=output_text
     #     )
-    with gr.Tab("📝 文本分析及存储"):
-        pass
 
 if __name__ == "__main__":
     # os.makedirs(AUDIO_DIR, exist_ok=True)
