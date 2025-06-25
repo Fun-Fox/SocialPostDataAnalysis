@@ -4,20 +4,16 @@ import gradio as gr
 import os
 import json
 import subprocess
-import torch
-
-# from stt.video_stt import batch_extract_audio_from_directory, process_audio_files
+from dotenv import load_dotenv
 
 SETTINGS_PATH = "./twitter_download/settings.json"
 MAIN_SCRIPT_PATH = "./twitter_download/main.py"
 # todo 需要优化存储路径等
 # AUDIO_DIR = "social_data/twitter/relDonaldTrump/audio"
 # 加载 HuggingFace Token
-HF_TOKEN = "https://hf-mirror.com"  # 替换为你自己的 HF_TOKEN
-os.environ["HF_HUB_DISABLE_XET"] = "1"
 current_dir = os.path.dirname(os.path.abspath(__name__))
 save_path = os.path.join(current_dir, "social_data/twitter")
-
+load_dotenv()
 def load_settings():
     with open(SETTINGS_PATH, 'r', encoding='utf-8') as f:
         return json.load(f)
@@ -269,16 +265,16 @@ if __name__ == "__main__":
     # os.makedirs(AUDIO_DIR, exist_ok=True)
     # 使用 argparse 解析命令行参数
     parser = argparse.ArgumentParser()
-    parser.add_argument('--port', type=int, default=7861, help='Gradio 应用监听的端口号')
+    parser.add_argument('--port', type=int, default=8186, help='Gradio 应用监听的端口号')
     args = parser.parse_args()
 
     if os.getenv('PLATFORM', '') == 'local':
         demo.launch(share=False,
-                   allowed_paths=[os.getenv('ROOT', ''), os.getenv('ZIP_DIR', ''), os.getenv('TASK_DIR', ''), "tmp",
-                                  os.path.join(os.getcwd(), 'Log')],
-                   server_port=args.port, favicon_path="favicon.ico")
+                   allowed_paths=["tmp",
+                                  os.path.join(os.getcwd(), 'logs')],
+                   server_port=args.port,)
     elif os.getenv('PLATFORM', '') == 'server':
         demo.launch(share=False, server_name="0.0.0.0",
-                   allowed_paths=[os.getenv('ROOT', ''), os.getenv('ZIP_DIR', ''), os.getenv('TASK_DIR', ''), "tmp",
+                   allowed_paths=[ "tmp",
                                   os.path.join(os.getcwd(), 'Log')],
-                   server_port=args.port, favicon_path="favicon.ico")
+                   server_port=args.port,)
