@@ -1,3 +1,5 @@
+import argparse
+
 import gradio as gr
 import os
 import json
@@ -265,4 +267,18 @@ with gr.Blocks(title="🐦 Twitter 数据抓取配置与执行") as demo:
 
 if __name__ == "__main__":
     # os.makedirs(AUDIO_DIR, exist_ok=True)
-    demo.launch()
+    # 使用 argparse 解析命令行参数
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', type=int, default=7861, help='Gradio 应用监听的端口号')
+    args = parser.parse_args()
+
+    if os.getenv('PLATFORM', '') == 'local':
+        demo.launch(share=False,
+                   allowed_paths=[os.getenv('ROOT', ''), os.getenv('ZIP_DIR', ''), os.getenv('TASK_DIR', ''), "tmp",
+                                  os.path.join(os.getcwd(), 'Log')],
+                   server_port=args.port, favicon_path="favicon.ico")
+    elif os.getenv('PLATFORM', '') == 'server':
+        demo.launch(share=False, server_name="0.0.0.0",
+                   allowed_paths=[os.getenv('ROOT', ''), os.getenv('ZIP_DIR', ''), os.getenv('TASK_DIR', ''), "tmp",
+                                  os.path.join(os.getcwd(), 'Log')],
+                   server_port=args.port, favicon_path="favicon.ico")
