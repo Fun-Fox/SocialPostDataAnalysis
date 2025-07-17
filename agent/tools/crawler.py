@@ -66,6 +66,7 @@ class WebCrawler:
                         "http": f"socks5h://{proxy_url[len('socks5://'):]}",
                         "https": f"socks5h://{proxy_url[len('socks5://'):]}",
                     }
+
                 else:
                     # 普通 http/https 代理
                     proxies = {
@@ -128,3 +129,17 @@ class WebCrawler:
                 # to_visit.extend(new_urls)
 
         return results
+
+
+if __name__ == "__main__":
+    proxy_url = os.getenv("PROXY_URL")
+    proxies = None
+    if proxy_url.startswith("socks5://"):
+        # 使用 socks5 代理
+        # 使用 socks5 代理，确保 DNS 也走代理
+        proxies = {
+            "http": f"socks5h://{proxy_url[len('socks5://'):]}",
+            "https": f"socks5h://{proxy_url[len('socks5://'):]}",
+        }
+    print(proxies)
+
