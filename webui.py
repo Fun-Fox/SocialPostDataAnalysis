@@ -6,8 +6,8 @@ import json
 import subprocess
 from dotenv import load_dotenv
 
-SETTINGS_PATH = "settings.json"
-MAIN_SCRIPT_PATH = "main.py"
+SETTINGS_PATH = "./twitter_download/settings.json"
+MAIN_SCRIPT_PATH = "./twitter_download/main.py"
 # todo 需要优化存储路径等
 # AUDIO_DIR = "social_data/twitter/relDonaldTrump/audio"
 # 加载 HuggingFace Token
@@ -187,7 +187,7 @@ with gr.Blocks(title="🐦 Twitter 数据抓取配置与执行") as demo:
         log_output_box = gr.Textbox(label="运行日志", lines=20, max_lines=20)
         run_button = gr.Button("▶️ 开始抓取")
         run_button.click(fn=run_crawler, outputs=log_output_box)
-        LOG_DIR = "../logs"
+        LOG_DIR = "./logs"
 
 
         def get_log_files():
