@@ -6,9 +6,12 @@ from bs4 import BeautifulSoup  # 用于解析 HTML 页面结构
 from urllib.parse import urljoin, urlparse  # 用于处理 URL 拼接与解析
 from typing import Dict, List, Set, Any  # 类型提示，提高代码可读性
 from dotenv import load_dotenv
+
 load_dotenv()
 
-__all__=["WebCrawler"]
+__all__ = ["WebCrawler"]
+
+
 class WebCrawler:
     """WebCrawler 是一个简单的网页爬虫类，用于抓取指定网站的内容并提取文本、链接等信息。
 
@@ -19,7 +22,7 @@ class WebCrawler:
     - 限制最大爬取页数防止无限爬取
     """
 
-    def __init__(self, base_url: str ,max_pages: int = 0):
+    def __init__(self, base_url: str, max_pages: int = 0):
         """初始化爬虫实例
 
         参数:
@@ -54,10 +57,21 @@ class WebCrawler:
         """
         try:
             proxy_url = os.getenv("PROXY_URL")
-            proxies = {
-                "http": proxy_url,
-                "https": proxy_url
-            } if proxy_url else None
+            proxies = None
+            if proxy_url:
+                if proxy_url.startswith("socks5://"):
+                    # 使用 socks5 代理
+                    # 使用 socks5 代理，确保 DNS 也走代理
+                    proxies = {
+                        "http": f"socks5h://{proxy_url[len('socks5://'):]}",
+                        "https": f"socks5h://{proxy_url[len('socks5://'):]}",
+                    }
+                else:
+                    # 普通 http/https 代理
+                    proxies = {
+                        "http": proxy_url,
+                        "https": proxy_url
+                    }
 
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -67,7 +81,7 @@ class WebCrawler:
                 "Connection": "keep-alive"
             }
 
-            response = requests.get(url, headers=headers,proxies=proxies,timeout=10)
+            response = requests.get(url, headers=headers, proxies=proxies, timeout=10)
             response.raise_for_status()  # 如果响应状态码不是 200，抛出异常
 
             soup = BeautifulSoup(response.text, "html.parser")  # 解析 HTML 内容
@@ -79,7 +93,6 @@ class WebCrawler:
                 "text": soup.get_text(separator="\n", strip=True),  # 页面正文内容，用换行分隔并去除空白
                 # "links": []  # 存储提取到的链接
             }
-
 
             return content
 

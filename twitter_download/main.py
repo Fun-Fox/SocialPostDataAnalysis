@@ -408,14 +408,14 @@ def download_control(_user_info):
     async def _main():
         async def down_save(url, prefix, csv_info, order: int):
             if '.mp4' in url:
-                _file_name = f'{_user_info.save_path  + os.sep + 'video' + os.sep}{prefix}_{_user_info.count + order}.mp4'
+                _file_name = f'{_user_info.save_path  + os.sep + "video" + os.sep}{prefix}_{_user_info.count + order}.mp4'
             else:
                 try:
                     if orig_format:
                         url += f'?name=orig'
-                        _file_name = f'{_user_info.save_path  + os.sep + 'images' + os.sep}{prefix}_{_user_info.count + order}.{csv_info[5][-3:]}'  # 根据图片 url 获取原始格式
+                        _file_name = f'{_user_info.save_path  + os.sep + "images" + os.sep}{prefix}_{_user_info.count + order}.{csv_info[5][-3:]}'  # 根据图片 url 获取原始格式
                     else:  # 指定格式时，先使用 name=orig，404 则切回 name=4096x4096，以保证最大尺寸
-                        _file_name = f'{_user_info.save_path   + os.sep + 'images' + os.sep}{prefix}_{_user_info.count + order}.{img_format}'
+                        _file_name = f'{_user_info.save_path   + os.sep + "images" + os.sep}{prefix}_{_user_info.count + order}.{img_format}'
                         if img_format != 'png':
                             url += f'?format=jpg&name=4096x4096'
                         else:
