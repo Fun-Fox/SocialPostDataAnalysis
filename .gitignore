@@ -10,7 +10,7 @@
 __pycache__
 .DS_Store
 *.zip
-.env
+twitter_download/.env
 *.bak
 *.wav
 /tts
