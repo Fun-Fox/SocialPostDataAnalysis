@@ -87,11 +87,11 @@ def download_control(media_lst):
                     break
                 except Exception as e:
                     if count >= 50:
-                        print(f'{url}=====>第{count}次下载失败,已跳过')
+                        print(f'{url}=====>第{count}次down_save下载失败,已跳过')
                         break
                     count += 1
                     print(e)
-                    print(f'{url}=====>第{count}次下载失败,正在重试')
+                    print(f'{url}=====>第{count}次down_save下载失败,正在重试')
 
         semaphore = asyncio.Semaphore(max_concurrent_requests)
         await asyncio.gather(*[asyncio.create_task(down_save(url[0], url[1], url[2])) for url in media_lst])   # 0:url 1:_file_name 2:is_image

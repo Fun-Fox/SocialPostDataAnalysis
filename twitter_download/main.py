@@ -408,14 +408,14 @@ def download_control(_user_info):
     async def _main():
         async def down_save(url, prefix, csv_info, order: int):
             if '.mp4' in url:
-                _file_name = f'{_user_info.save_path  + os.sep + "video" + os.sep}{prefix}_{_user_info.count + order}.mp4'
+                _file_name = f'{_user_info.save_path + os.sep + "video" + os.sep}{prefix}_{_user_info.count + order}.mp4'
             else:
                 try:
                     if orig_format:
                         url += f'?name=orig'
-                        _file_name = f'{_user_info.save_path  + os.sep + "images" + os.sep}{prefix}_{_user_info.count + order}.{csv_info[5][-3:]}'  # 根据图片 url 获取原始格式
+                        _file_name = f'{_user_info.save_path + os.sep + "images" + os.sep}{prefix}_{_user_info.count + order}.{csv_info[5][-3:]}'  # 根据图片 url 获取原始格式
                     else:  # 指定格式时，先使用 name=orig，404 则切回 name=4096x4096，以保证最大尺寸
-                        _file_name = f'{_user_info.save_path   + os.sep + "images" + os.sep}{prefix}_{_user_info.count + order}.{img_format}'
+                        _file_name = f'{_user_info.save_path + os.sep + "images" + os.sep}{prefix}_{_user_info.count + order}.{img_format}'
                         if img_format != 'png':
                             url += f'?format=jpg&name=4096x4096'
                         else:
@@ -424,7 +424,7 @@ def download_control(_user_info):
                     print(url)
                     logger.error(f'异常：{e},{url}')
                     return False
-
+            os.makedirs(os.path.split(_file_name)[0], exist_ok=True)
             csv_info[-5] = os.path.split(_file_name)[1]
             if md_output:  # 在下载完毕之前先输出到 Markdown，以尽可能保证高并发下载也能得到正确的推文顺序。
                 md_file.media_tweet_input(csv_info, prefix)
@@ -458,8 +458,9 @@ def download_control(_user_info):
                             print(url)
                             logger.error(url)
                             break
-                        print(f'{_file_name}=====>第{count}次下载失败,正在重试')
-                        logger.error(f'{_file_name}=====>第{count}次下载失败,正在重试')
+                        print(f'{_file_name}=====>第{count}次下载失败,main正在重试')
+                        logger.error(f'{_file_name}=====>第{count}次下载失败,main正在重试')
+                        logger.error(e)
                         print(url)
                         logger.error(f'{url}')
                     else:

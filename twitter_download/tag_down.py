@@ -108,7 +108,7 @@ def download_control(media_lst, _csv):
                 except Exception as e:
                     count += 1
                     print(e)
-                    print(f'{_csv_info[6]}=====>第{count}次下载失败,正在重试')
+                    print(f'{_csv_info[6]}=====>第{count}次下tag_down载失败,正在重试')
             _csv.data_input(_csv_info)
 
         semaphore = asyncio.Semaphore(max_concurrent_requests)
