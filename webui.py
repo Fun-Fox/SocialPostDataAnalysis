@@ -14,6 +14,8 @@ MAIN_SCRIPT_PATH = "./twitter_download/main.py"
 current_dir = os.path.dirname(os.path.abspath(__name__))
 save_path = os.path.join(current_dir, "social_data/twitter")
 load_dotenv()
+
+
 def load_settings():
     with open(SETTINGS_PATH, 'r', encoding='utf-8') as f:
         return json.load(f)
@@ -269,12 +271,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if os.getenv('PLATFORM', '') == 'local':
-        demo.launch(share=False,
-                   allowed_paths=["tmp",
-                                  os.path.join(os.getcwd(), 'logs')],
-                   server_port=args.port,)
+        demo.launch(share=False, ssl_verify=False, ssl_certfile="cert.pem",
+                    ssl_keyfile="key.pem",
+                    allowed_paths=["tmp",
+                                   os.path.join(os.getcwd(), 'logs')],
+                    server_port=args.port, )
     elif os.getenv('PLATFORM', '') == 'server':
-        demo.launch(share=False, server_name="0.0.0.0",
-                   allowed_paths=[ "tmp",
-                                  os.path.join(os.getcwd(), 'Log')],
-                   server_port=args.port,)
+        demo.launch(share=False, server_name="0.0.0.0", ssl_verify=False, ssl_certfile="cert.pem",
+                    ssl_keyfile="key.pem",
+                    allowed_paths=["tmp",
+                                   os.path.join(os.getcwd(), 'Log')],
+                    server_port=args.port, )
