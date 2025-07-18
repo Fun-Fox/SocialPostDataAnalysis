@@ -275,10 +275,10 @@ if __name__ == "__main__":
                     ssl_keyfile="key.pem",
                     allowed_paths=["tmp",
                                    os.path.join(os.getcwd(), 'logs')],
-                    server_port=args.port, )
+                    server_port=args.port, root_path="/tw-plugin")
     elif os.getenv('PLATFORM', '') == 'server':
         demo.launch(share=False, server_name="0.0.0.0", ssl_verify=False, ssl_certfile="cert.pem",
                     ssl_keyfile="key.pem",
                     allowed_paths=["tmp",
                                    os.path.join(os.getcwd(), 'Log')],
-                    server_port=args.port, )
+                    server_port=args.port, root_path="/tw-plugin")
